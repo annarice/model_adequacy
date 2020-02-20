@@ -86,3 +86,9 @@ def str_to_lst(str,type_flag):
 	if type_flag == "float":
 		lst = list(map(float, str.split(",")))
 	return(lst)
+
+#def compare_tree_to_counts():
+
+def fix_tree_file2(tree_file2):
+    with open(tree_file2, "a") as add:
+        add.write(";")

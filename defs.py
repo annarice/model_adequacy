@@ -33,8 +33,8 @@ def get_arguments():
 	parser.add_argument('--params', '-p', help='parameters file from user for simulations', required=False, default="")
 	parser.add_argument('--counts', '-co', help='counts file', required=True)
 	parser.add_argument('--tree', '-t', help='counts file', required=True)
-	parser.add_argument('--sanity', '-s', help='counts file', required=True)
-	parser.add_argument('--results', '-r', help='counts file', required=True)
+	parser.add_argument('--sanity', '-s', help='counts file', required=False, default=0)
+	parser.add_argument('--results', '-r', help='counts file', required=False, default=0)
 
 	# parse arga
 	args = parser.parse_args()

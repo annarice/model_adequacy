@@ -1,4 +1,5 @@
 from defs import *
+from utils import *
 
 def calculate_statistics(counts,filename, tree_file, simulated_counts_file = False, tree_file2 = None):
     '''
@@ -95,7 +96,3 @@ def acctran(t):
     out, err = res.communicate()
     res = float(out[3:].strip())
     return(res)
-
-def fix_tree_file2(tree_file2):
-    with open(tree_file2, "a") as add:
-        add.write(";")

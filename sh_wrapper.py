@@ -8,13 +8,13 @@ from data_processing import best_model
 ### ARGS
 parser = argparse.ArgumentParser(description="produce sh files for running model adequacy, either in regular or sanity mode")
 parser.add_argument('--nsims', '-n', help='Number of simulations',required=True)
-parser.add_argument('--sanity', '-s', help='Regular mode = 0, sanity mode = 1',required=True, default = 0)
+parser.add_argument('--sanity', '-s', help='Regular mode = 0, sanity mode = 1',required=False, default = 0)
 parser.add_argument('--genera', '-f', help='Genera file',required=True)
 parser.add_argument('--script', '-c', help='Script path',required=True)
-parser.add_argument('--models_flag', '-m', help='models flag',required=True, default = 0) # options: ALL, BEST, OTHERS, DEFINED
-parser.add_argument('--models_defined', '-md', help='define which models to run',required=False) # if DEFINED give model's name(s)
-parser.add_argument('--results_flag', '-r', help='results flag',required=True, default = 0) # use previous simulations results
-parser.add_argument('--queue_name', '-q', help='queue name',required=True, default = 0) # use previous simulations results
+parser.add_argument('--models_flag', '-m', help='models flag. options: ALL, BEST, OTHERS, DEFINED',required=False, default = "BEST") # options: ALL, BEST, OTHERS, DEFINED
+parser.add_argument('--models_defined', '-md', help='names of models to test',required=True) # if DEFINED give model's name(s)
+parser.add_argument('--results_flag', '-r', help='results flag. Previous results to use = 1, otherwise = 0',required=False, default = 0) # use previous simulations results
+parser.add_argument('--queue_name', '-q', help='queue name',required=False, default = "itaym") # use previous simulations results
 
 args = parser.parse_args()
 nsims = int(args.nsims)
@@ -56,11 +56,11 @@ with open (filename, "r") as genera:
 
 			for model in models:
 				if sanity == 1:
-					for i in range(50):  # NEED THIS FOR MA ON SANITY
+					for i in range(1):  # NEED THIS FOR MA ON SANITY
 						name = genus + str(i) + "." + model
 						wd = "/groups/itay_mayrose/annarice/model_adequacy/sanity/" + genus + "/" + tested_model + "/adequacy_test/" + str(i) + "/"
 						check_path = wd + model + "/adequacy_test/"
-						if os.path.isdir(check_path) and os.listdir(check_path): # already executed
+						if os.path.isdir(check_path) and os.listdir(check_path): # already executed - prevent from running over
 							continue
 						co = "/groups/itay_mayrose/annarice/model_adequacy/sanity/" + genus + "/" + tested_model + "/adequacy_test/" + str(i) + "/counts.txt"
 						tree = "/groups/itay_mayrose/annarice/model_adequacy/sanity/" + genus + "/tree_1"

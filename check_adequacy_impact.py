@@ -189,7 +189,13 @@ with open(res_file , "w+") as writeFile:
 
 						with open (adequacy_filename,"r") as adequacy_f:
 							tmp = adequacy_f.readline()
-							if re.search("0",tmp):
+							# remove range and unique counts statistics
+							tmp = tmp[1:-1]
+							tmp = tmp.split(", ")
+							del tmp[2:4]
+							#print(tmp + " " +  genus + " " + model + " " + str(i))
+							#if re.search("0",tmp):
+							if "0" in tmp: # inadequate model
 								if error_measure == "internal_nodes": # difference between two lists
 									tmp_lst = [abs(x1 - x2) for (x1, x2) in zip(orig_num, inferred_num)]
 									tmp_lst = sum(tmp_lst)
