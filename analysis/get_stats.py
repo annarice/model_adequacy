@@ -39,7 +39,7 @@ def calculate_statistics(counts,filename, tree_file, simulated_counts_file = Fal
         a = 0
 
     with open(filename, "w+") as stats:
-        stats.write(str(round(v,4)) + "," + str(round(e,4)) + "," + str(round(r,4)) + "," + str(round(u,4)) + "," + str(round(p,4)) + "," + str(round(a,4)))
+        stats.write(str(round(v,4)) + "," + str(round(e,4)) + "," + str(round(p,4)) + "," + str(round(a,4)) + "," + str(round(r,4)) + "," + str(round(u,4)))
 
     return ([v, e, r, u, p, a])
 
@@ -48,7 +48,6 @@ def fitch (tree_file, c = False):
     score = 0
 
     if c: # if there's a counts file, the analysis is of a simulated dataset
-        #print(c)
         d = {}
         with open(c, "r") as counts:
             for line in counts:

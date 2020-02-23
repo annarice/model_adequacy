@@ -1,6 +1,9 @@
-from ete3 import Tree
+import sys
+sys.path.insert(0,"/groups/itay_mayrose/annarice/model_adequacy/code")
+#from code.defs import *
+from defs import *
 
-def match_counts_to_tree(tree_file,counts,new_counts):
+def match_counts_to_tree(tree_file,counts,new_counts,new_tree):
     t = Tree(tree_file, format=1)
     tree_flag = 0
     to_be_pruned = []
@@ -26,14 +29,16 @@ def match_counts_to_tree(tree_file,counts,new_counts):
                 handle.write(str(tmp.get(key)) + "\n")
     if tree_flag == 1: # the tree was pruned - re-write it
         t.prune(list(set(tips) - set(to_be_pruned)))
-        t.write(format=1, outfile=tree_file)
+        t.write(format=1, outfile=new_tree)
+    else:
+        t.write(format=1,outfile=new_tree)
 
 
 def handle_tree(tree_file,tip_to_prune):
     t = Tree(tree_file, format=1)
     tips = [leaf.name for leaf in t]
     t.prune(list(set(tips) - set([tip_to_prune])))
-    t.write(format=1, outfile=tree_file + "2")
+    t.write(format=1, outfile=tree_file)
 
 
 def get_counts(filename):
@@ -50,9 +55,9 @@ def get_counts(filename):
                 name = line[1:]
                 continue
             else:
-                if line=="x":
+                #if line=="x":
                     #handle_tree(tree_file, name) # prune the tree
-                    continue
+                    #continue
                 counts.append(int(line))
     if len(set(counts))== 0: # no counts variability, do not apply MA
         return ("exit")

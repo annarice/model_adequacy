@@ -1,4 +1,3 @@
-import os
 from utils import *
 from defs import *
 from data_processing import process_data
@@ -12,6 +11,9 @@ if __name__ == '__main__':
 	id, main_res_dir, in_model, num_of_trees, sims_per_tree, CE_path, params_from_user, counts_file, tree_full_path, sanity_flag,results_flag = get_arguments()
 	CE_res_filename, expectation_file, mlAncTree, root_freq_filename, sim_control, statistics_names = fixed_vars()
 	m = len(in_model)
+	process_data.match_counts_to_tree(tree_full_path, counts_file, counts_file+"_pruned", tree_full_path+"_pruned")
+	tree_full_path = tree_full_path+"_pruned"
+	counts_file =  counts_file + "_pruned"
 	for k in range(m): # run over all models or a single model
 		model = in_model[k]
 		if sanity_flag == 1:
