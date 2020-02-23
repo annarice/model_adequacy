@@ -1,20 +1,20 @@
+import sys
+sys.path.append("/groups/itay_mayrose/annarice/model_adequacy/code")
 from defs import *
-#from ete3 import Tree
 from data_processing import best_model
-#import regex as re
 
 def initialize_defaults(output_dir,max_for_sim,nsims,tree_full_path):
     d = {}
     d["_mainType"] = "mainSimulate"
     d["_outDir"] = output_dir
     d["_treeFile"] = tree_full_path
-    d["_simulationsJumpsStats"] =  "expStats.txt" ########## try with/out
+    d["_simulationsJumpsStats"] =  "expStats.txt"
     if nsims > 0:
         d["_simulationsIter"] = nsims
     else:
 	    d["_simulationsIter"] = 100
-    d["_maxChrNumForSimulations"] = max_for_sim  ########## need to see if this matters in runtime (100 vs. 10000)
-    d["_simulationsTreeLength"] = 4 ##### parsed from res file
+    d["_maxChrNumForSimulations"] = max_for_sim
+    d["_simulationsTreeLength"] = 4
     d["_branchMul"] = 1
 
     return d
@@ -38,7 +38,7 @@ def create_control_file(filename, working_dir,output_dir,max_for_sim,nsims,model
     # 1. d = initialize (outDir, main_res_dir + model_name + expectation_file, main_res_dir + model_name + mlAncTree)
     # 2. parse res file OR receive parameters from user (d, model_name)
     d = initialize_defaults(output_dir,max_for_sim,nsims,tree_full_path)
-    CE_res_filename, expectation_file, mlAncTree, root_freq_filename, sim_control, statistics_names = fixed_vars()
+    #CE_res_filename, expectation_file, mlAncTree, root_freq_filename, sim_control, statistics_names = fixed_vars()
     d = parse_params_from_res_file(d,working_dir + CE_res_filename,working_dir + root_freq_filename,working_dir + expectation_file, working_dir + mlAncTree,model_name,orig_counts)
 
     with open(filename, "w+") as control_file:
@@ -51,7 +51,7 @@ def run_MA(main_res_dir,filename,working_dir,output_dir,orig_counts,model_name,n
     real_max = max(orig_counts)
     init_max_for_sim = max(real_max, min(real_max*10,200))
     # get max chr allowed
-    with open(main_res_dir + "/chromEvol.res","r") as res_file:
+    with open(main_res_dir + CE_res_filename,"r") as res_file:
         for line in res_file:
             line = line.strip()
             tmp = re.search("max chromosome allowed: (\d+)", line)

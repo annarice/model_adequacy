@@ -10,16 +10,18 @@ from analysis import test_adequacy
 
 if __name__ == '__main__':
 	id, main_res_dir, in_model, num_of_trees, sims_per_tree, CE_path, params_from_user, counts_file, tree_full_path, sanity_flag,results_flag = get_arguments()
-	CE_res_filename, expectation_file, mlAncTree, root_freq_filename, sim_control, statistics_names = fixed_vars()
+	#CE_res_filename, expectation_file, mlAncTree, root_freq_filename, sim_control, statistics_names = fixed_vars()
 	m = len(in_model)
-	process_data.match_counts_to_tree(tree_full_path, counts_file, counts_file + "_pruned", tree_full_path + "_pruned")
-	tree_full_path = tree_full_path + "_pruned"
-	counts_file = counts_file + "_pruned"
 	for k in range(m): # run over all models or a single model
 		model = in_model[k]
 		if sanity_flag == 1:
 			main_res_dir = main_res_dir + model
+		copyfile(tree_full_path, tree_full_path + "_orig")
+		copyfile(main_res_dir + mlAncTree, main_res_dir + mlAncTree + "_orig")
+		copyfile(counts_file, counts_file + "_orig")
 		output_dir = main_res_dir + "/adequacy_test/"
+		process_data.match_counts_to_tree(main_res_dir + mlAncTree, counts_file, counts_file,
+										  main_res_dir + mlAncTree)
 		for i in range(num_of_trees):
 			if not os.path.exists(output_dir):
 				res = os.system("mkdir -p " + output_dir)  # -p allows recusive mkdir in case one of the upper directories doesn't exist

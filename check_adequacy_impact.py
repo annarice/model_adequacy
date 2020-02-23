@@ -193,6 +193,7 @@ with open(res_file , "w+") as writeFile:
 							tmp = tmp[1:-1]
 							tmp = tmp.split(", ")
 							del tmp[2:4]
+							del tmp[3]
 							#print(tmp + " " +  genus + " " + model + " " + str(i))
 							#if re.search("0",tmp):
 							if "0" in tmp: # inadequate model

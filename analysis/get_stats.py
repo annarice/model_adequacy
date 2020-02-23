@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0,"/groups/itay_mayrose/annarice/model_adequacy/code")
 from defs import *
 from utils import *
 

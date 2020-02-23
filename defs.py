@@ -11,7 +11,16 @@ import sys,argparse,platform
 from ete3 import Tree
 import csv
 import subprocess
+from shutil import copyfile
 
+CE_res_filename = "/chromEvol.res"  # this name needs to be concatenated to the model's name as a directory
+expectation_file = "/expectations.txt"
+mlAncTree = "/mlAncestors.tree"
+root_freq_filename = "/root_freq"
+sim_control = "/param_sim"
+statistics_names = ["Variance", "Entropy", "Parsimony", "Time_parsimony", "Range", "Unique_counts"]
+
+'''
 def fixed_vars():
 	CE_res_filename = "/chromEvol.res"  # this name needs to be concatenated to the model's name as a directory
 	expectation_file = "/expectations.txt"
@@ -20,6 +29,7 @@ def fixed_vars():
 	sim_control = "/param_sim"
 	statistics_names = ["Variance","Entropy","Parsimony","Time_parsimony","Range","Unique_counts"]
 	return(CE_res_filename,expectation_file,mlAncTree,root_freq_filename,sim_control,statistics_names)
+'''
 
 ### ARGS
 def get_arguments():

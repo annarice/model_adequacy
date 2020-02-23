@@ -12,7 +12,7 @@ parser.add_argument('--sanity', '-s', help='Regular mode = 0, sanity mode = 1',r
 parser.add_argument('--genera', '-f', help='Genera file',required=True)
 parser.add_argument('--script', '-c', help='Script path',required=True)
 parser.add_argument('--models_flag', '-m', help='models flag. options: ALL, BEST, OTHERS, DEFINED',required=False, default = "BEST") # options: ALL, BEST, OTHERS, DEFINED
-parser.add_argument('--models_defined', '-md', help='names of models to test',required=True) # if DEFINED give model's name(s)
+parser.add_argument('--models_defined', '-md', help='names of models to test',required=False) # if DEFINED give model's name(s)
 parser.add_argument('--results_flag', '-r', help='results flag. Previous results to use = 1, otherwise = 0',required=False, default = 0) # use previous simulations results
 parser.add_argument('--queue_name', '-q', help='queue name',required=False, default = "itaym") # use previous simulations results
 

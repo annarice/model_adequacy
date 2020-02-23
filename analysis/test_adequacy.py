@@ -1,3 +1,5 @@
+import sys
+sys.path.append("/groups/itay_mayrose/annarice/model_adequacy/code")
 from defs import *
 from utils import *
 from data_processing import process_data
@@ -21,7 +23,7 @@ def create_simulated_stats_distribution(out_dir,nsims,main_res_dir): #[v, e, r, 
     simulated_counts_stats_dist = []
     for i in range(nsims):  # for each simulation
         sim_counts = process_data.get_counts(out_dir + str(i) + "/simCounts.txt")
-        simulated_counts_statistics = get_stats.calculate_statistics(sim_counts,out_dir + str(i) + "/simStats", main_res_dir + "/mlAncestors.tree",out_dir + str(i) + "/simCounts.txt",out_dir + str(i) + "/simTree.phr")
+        simulated_counts_statistics = get_stats.calculate_statistics(sim_counts,out_dir + str(i) + "/simStats", main_res_dir + mlAncTree,out_dir + str(i) + "/simCounts.txt",out_dir + str(i) + "/simTree.phr")
         simulated_counts_stats_dist.append(simulated_counts_statistics)
     return simulated_counts_stats_dist
 
@@ -79,7 +81,7 @@ def test_adequacy(sim_stats, stats,filename1,filename2):
     return (adequacy_lst,stat_lst)
 
 def post_analysis(adequacy_results,stats_results,model_name,filename,id):
-    CE_res_filename, expectation_file, mlAncTree, root_freq_filename, sim_control, statistics_names = fixed_vars()
+    #CE_res_filename, expectation_file, mlAncTree, root_freq_filename, sim_control, statistics_names = fixed_vars()
     with open(filename, "w+") as results_file:
         if all(x==1 for x in adequacy_results):
                 print ("In " + id + ", " + model_name + " is adequate for all statistics", file = results_file)
