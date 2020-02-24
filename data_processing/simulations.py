@@ -1,5 +1,5 @@
 import sys
-sys.path.append("/groups/itay_mayrose/annarice/model_adequacy/code")
+sys.path.append("../")
 from defs import *
 from data_processing import best_model
 
@@ -38,7 +38,6 @@ def create_control_file(filename, working_dir,output_dir,max_for_sim,nsims,model
     # 1. d = initialize (outDir, main_res_dir + model_name + expectation_file, main_res_dir + model_name + mlAncTree)
     # 2. parse res file OR receive parameters from user (d, model_name)
     d = initialize_defaults(output_dir,max_for_sim,nsims,tree_full_path)
-    #CE_res_filename, expectation_file, mlAncTree, root_freq_filename, sim_control, statistics_names = fixed_vars()
     d = parse_params_from_res_file(d,working_dir + CE_res_filename,working_dir + root_freq_filename,working_dir + expectation_file, working_dir + mlAncTree,model_name,orig_counts)
 
     with open(filename, "w+") as control_file:

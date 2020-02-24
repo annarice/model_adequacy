@@ -70,6 +70,5 @@ if __name__ == '__main__':
 		res = os.system("mkdir -p " + output_dir)
 	counts = main_res_dir + str(i) + "/" + "counts.txt"
 	new_counts = main_res_dir + str(i) + "/" + "counts.txt"
-	process_data.match_counts_to_tree(tree, counts, new_counts)
 	create_CE_control(output_dir + model + ".params",output_dir,counts,tree,model)
 	os.system('"' + CE_path + '" ' + output_dir + model + ".params")

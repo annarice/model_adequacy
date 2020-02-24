@@ -1,16 +1,11 @@
 import sys
-sys.path.append("/groups/itay_mayrose/annarice/model_adequacy/code")
+sys.path.append("../")
 from defs import *
 from utils import *
 from data_processing import process_data
 from analysis import get_stats
-# -------- #
-import pandas as pd
-import scipy as sp
-import numpy as np
 from scipy import linalg
 from scipy import stats as st
-
 
 def create_simulated_stats_distribution(out_dir,nsims,main_res_dir): #[v, e, r, u]
     '''
@@ -22,8 +17,8 @@ def create_simulated_stats_distribution(out_dir,nsims,main_res_dir): #[v, e, r, 
     '''
     simulated_counts_stats_dist = []
     for i in range(nsims):  # for each simulation
-        sim_counts = process_data.get_counts(out_dir + str(i) + "/simCounts.txt")
-        simulated_counts_statistics = get_stats.calculate_statistics(sim_counts,out_dir + str(i) + "/simStats", main_res_dir + mlAncTree,out_dir + str(i) + "/simCounts.txt",out_dir + str(i) + "/simTree.phr")
+        sim_counts = process_data.get_counts(out_dir + str(i) + "/simCounts.txt",out_dir + str(i))
+        simulated_counts_statistics = get_stats.calculate_statistics(sim_counts,out_dir + str(i) + "/simStats", main_res_dir + tree_with_counts,out_dir + str(i) + "/simCounts.txt",out_dir + str(i) + "/simTree.phr")
         simulated_counts_stats_dist.append(simulated_counts_statistics)
     return simulated_counts_stats_dist
 
@@ -81,7 +76,6 @@ def test_adequacy(sim_stats, stats,filename1,filename2):
     return (adequacy_lst,stat_lst)
 
 def post_analysis(adequacy_results,stats_results,model_name,filename,id):
-    #CE_res_filename, expectation_file, mlAncTree, root_freq_filename, sim_control, statistics_names = fixed_vars()
     with open(filename, "w+") as results_file:
         if all(x==1 for x in adequacy_results):
                 print ("In " + id + ", " + model_name + " is adequate for all statistics", file = results_file)
@@ -94,12 +88,10 @@ def post_analysis(adequacy_results,stats_results,model_name,filename,id):
                     print ("Not adequate for " + str(statistics_names[i]), file = results_file)
             if adequacy_results[i]==1:
                     print ("Adequate for " + str(statistics_names[i]), file = results_file)
-        #for i in range(len(stats_results)):
-         #   print (str(statistics_names[i] + " = " + str(stats_results[i])), file = results_file)
         return adequacy_results
 
 def model_adequacy(out_dir,orig_counts_stats, model_name,max_for_sims,nsims,id,main_res_dir):
-    sim_dist = create_simulated_stats_distribution(out_dir,nsims,main_res_dir)
+    sim_dist = create_simulated_stats_distribution (out_dir,nsims,main_res_dir)
     adequacy_results,stats_results = test_adequacy(sim_dist, orig_counts_stats,out_dir + "percentiles_" + model_name,out_dir + "true_percentiles")
     handle_distributions(sim_dist, orig_counts_stats,adequacy_results, out_dir + "stats_dist_sims", out_dir + "adequacy_vec")
     results_lst = post_analysis(adequacy_results,stats_results, model_name, out_dir + model_name + "_MA.res",id)

@@ -64,14 +64,18 @@ with open (filename, "r") as genera:
 							continue
 						co = "/groups/itay_mayrose/annarice/model_adequacy/sanity/" + genus + "/" + tested_model + "/adequacy_test/" + str(i) + "/counts.txt"
 						tree = "/groups/itay_mayrose/annarice/model_adequacy/sanity/" + genus + "/tree_1"
-						cmd = "-c " + wd + " -m " + model + " -id " + genus + " -nt 1 -ns " + str(nsims) + " -ce /groups/itay_mayrose/itaymay/code/chromEvol/chromEvol_source-current/chromEvol -co " + co + " -t " + tree + " -s " + str(sanity) + " -r " + str(results_flag)
+						cmd = "-c " + wd + " -m " + model + " -id " + genus + " -nt 1 -ns " + str(
+							nsims) + " -ce /groups/itay_mayrose/itaymay/code/chromEvol/chromEvol_source-current/chromEvol -co " + co + " -s " + str(
+							sanity) + " -r " + str(results_flag)
 						os.system("python ~/create_sh.py " + "-name " + name + " -l " + lang + " -s " + script + " -q " + queue + " -p \'" + cmd + "\'")
 				else:
 					name = genus + "." + model
 					wd = "/groups/itay_mayrose/annarice/model_adequacy/genera/" + genus + "/" + model + "/"
 					co = "/groups/itay_mayrose/annarice/model_adequacy/genera/" + genus + "/" + genus + counts_file
 					tree = "/groups/itay_mayrose/annarice/model_adequacy/genera/" + genus + "/tree_1"
-					cmd = "-c " + wd + " -m " + model + " -id " + genus + " -nt 1 -ns " + str(nsims) + " -ce /groups/itay_mayrose/itaymay/code/chromEvol/chromEvol_source-current/chromEvol -co " + co + " -t " + tree + " -s " + str(sanity) + " -r " + str(results_flag)
+					cmd = "-c " + wd + " -m " + model + " -id " + genus + " -nt 1 -ns " + str(
+						nsims) + " -ce /groups/itay_mayrose/itaymay/code/chromEvol/chromEvol_source-current/chromEvol -co " + co + " -s " + str(
+						sanity) + " -r " + str(results_flag)
 					row = [genus, models]
 					writer.writerow(row)
 					os.system("python ~/create_sh.py " + "-name " + name + " -l " + lang + " -s " + script + " -q " + queue + " -p \'" + cmd + "\'")

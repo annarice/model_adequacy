@@ -1,16 +1,21 @@
 import sys
-sys.path.insert(0,"/groups/itay_mayrose/annarice/model_adequacy/code")
+sys.path.append("../")
 from defs import *
 from utils import *
 
 def calculate_statistics(counts,filename, tree_file, simulated_counts_file = False, tree_file2 = None):
     '''
-        given list of counts produces statistics: variance,min,max,entropy, fitch score
-    :param counts: list of chromosome numbers
+
+    :param counts: list of counts
+    :param filename: output file to where the stats will be printed
+    :param tree_file: for parsimony (fitch) and time-parsimony calculations
+    :param simulated_counts_file: if supplied - stats are calculated on simulations
+    :param tree_file2: if supplied - stats are calculated on simulations, a different tree file that needs to be corrected (CE bug - semicolon)
     :return: list of statistics representing the counts
     '''
+
     # variance
-    v = np.var(counts)
+    v = round(np.var(counts),2)
 
     # range = max - min
     r = max(counts) - min(counts)
@@ -40,15 +45,19 @@ def calculate_statistics(counts,filename, tree_file, simulated_counts_file = Fal
     except:
         a = 0
 
-    with open(filename, "w+") as stats:
-        stats.write(str(round(v,4)) + "," + str(round(e,4)) + "," + str(round(p,4)) + "," + str(round(a,4)) + "," + str(round(r,4)) + "," + str(round(u,4)))
+    lst_of_stats = [v, e, p, a, r, u]
+    round_stats = [round(x,2) for x in lst_of_stats]
 
-    return ([v, e, r, u, p, a])
+    with open(filename, "w+") as stats:
+        stats.write(','.join([str(x) for x in round_stats]))
+
+    return (round_stats)
 
 def fitch (tree_file, c = False):
     t = Tree(tree_file, format = 1)
     score = 0
 
+    '''
     if c: # if there's a counts file, the analysis is of a simulated dataset
         d = {}
         with open(c, "r") as counts:
@@ -59,6 +68,10 @@ def fitch (tree_file, c = False):
                 else:
                     val = line
                     d[key] = val
+    '''
+    if c:
+        d = create_counts_hash(c)
+
 
     for node in t.traverse("postorder"):
         if not node.is_leaf():  # internal node
