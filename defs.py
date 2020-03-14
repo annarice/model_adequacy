@@ -20,7 +20,7 @@ tree_with_counts = "/tree_with_counts.tree"
 tree_wo_counts = "/tree_wo_counts.tree"
 root_freq_filename = "/root_freq"
 sim_control = "/param_sim"
-statistics_names = ["Variance", "Entropy", "Parsimony", "Time_parsimony", "Range", "Unique_counts"]
+statistics_names = ["Variance", "Entropy", "Range", "Unique_counts", "Parsimony", "Time_parsimony"]
 
 ### ARGS
 def get_arguments():

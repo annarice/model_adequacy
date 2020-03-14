@@ -8,13 +8,14 @@ for i in range(1000):
 	l.append(str(i))
 
 lst = ["Aloe","Phacelia","Lupinus","Hypochaeris","Brassica","Pectis","Crepis","Hordeum"]
+lst = ["Pectis"]
 d = model_per_genus()
 
 
 for genus in lst:
 	model = d.get(genus)
 	untargz("/groups/itay_mayrose/annarice/model_adequacy/genera/" + genus + "/" + model + "/adequacy_test/zipped.tar.gz")
-	for i in range(50):
+	for i in range(50,100):
 		dest_dir = "/groups/itay_mayrose/annarice/model_adequacy/sanity/" + genus + "/" + model + "/adequacy_test/" + str(i) + "/"
 		if not os.path.exists(dest_dir):
 			res = os.system("mkdir -p " + dest_dir)  # -p allows recusive mkdir in case one of the upper directories doesn't exist

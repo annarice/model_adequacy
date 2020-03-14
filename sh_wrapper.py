@@ -56,12 +56,12 @@ with open (filename, "r") as genera:
 
 			for model in models:
 				if sanity == 1:
-					for i in range(1):  # NEED THIS FOR MA ON SANITY
+					for i in range(50,100):  # NEED THIS FOR MA ON SANITY
 						name = genus + str(i) + "." + model
 						wd = "/groups/itay_mayrose/annarice/model_adequacy/sanity/" + genus + "/" + tested_model + "/adequacy_test/" + str(i) + "/"
 						check_path = wd + model + "/adequacy_test/"
-						if os.path.isdir(check_path) and os.listdir(check_path): # already executed - prevent from running over
-							continue
+						#if os.path.isdir(check_path) and os.listdir(check_path): # already executed - prevent from running over
+							#continue
 						co = "/groups/itay_mayrose/annarice/model_adequacy/sanity/" + genus + "/" + tested_model + "/adequacy_test/" + str(i) + "/counts.txt"
 						tree = "/groups/itay_mayrose/annarice/model_adequacy/sanity/" + genus + "/tree_1"
 						cmd = "-c " + wd + " -m " + model + " -id " + genus + " -nt 1 -ns " + str(

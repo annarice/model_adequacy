@@ -19,7 +19,7 @@ if __name__ == '__main__':
 			if not os.path.exists(output_dir):
 				res = os.system("mkdir -p " + output_dir)  # -p allows recusive mkdir in case one of the upper directories doesn't exist
 			original_counts = process_data.get_counts(counts_file,main_res_dir)
-			if original_counts is None: # no counts variability, do not apply model adequacy
+			if os.path.exists(main_res_dir + "/NO_NEED_FOR_MA"):
 				exit()
 			process_data.match_counts_to_tree(main_res_dir + mlAncTree,main_res_dir)
 			original_counts_statistics = get_stats.calculate_statistics(original_counts, output_dir + "orig_stats",main_res_dir + tree_with_counts)

@@ -13,9 +13,9 @@ models = ["CONST_RATE","CONST_RATE_NO_DUPL","BASE_NUM","BASE_NUM_DUPL"]
 
 models_d = model_per_genus()
 
-out_file = "/groups/itay_mayrose/annarice/model_adequacy/sanity/sanity_summarize_Feb.csv"
+out_file = "/groups/itay_mayrose/annarice/model_adequacy/sanity/sanity_summarize_Mar.csv"
 outfile = open(out_file, "w")
-outfile.write("Simulated_under,model2,nsim,genus,variance,entropy,range,unique_counts,fitch,loss,gain,dupl,demi,base,baseR,sum" + "\n")
+outfile.write("Simulated_under,model2,nsim,genus,variance,entropy,range,unique_counts,fitch,time,loss,gain,dupl,demi,base,baseR,sum" + "\n")
 
 for genus in lst:
 

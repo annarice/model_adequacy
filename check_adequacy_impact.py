@@ -144,6 +144,7 @@ with open(res_file , "w+") as writeFile:
 	with open (filename, "r") as genera:
 		for genus in genera:
 			genus = genus.strip()
+			print(genus)
 
 			tested_model = d.get(genus)
 
@@ -153,7 +154,7 @@ with open(res_file , "w+") as writeFile:
 			wd2 = "/groups/itay_mayrose/annarice/model_adequacy/sanity/" + genus + "/" + best_model + "/adequacy_test/"
 			out_dir = "/groups/itay_mayrose/annarice/model_adequacy/genera/" + genus + "/" + tested_model + "/adequacy_test/"
 			targz_file = out_dir + "/zipped.tar.gz"
-			print(out_dir)
+			#print(out_dir)
 			if not os.path.isdir(out_dir + "0/"):
 				untargz(targz_file)
 
@@ -163,6 +164,7 @@ with open(res_file , "w+") as writeFile:
 				SET_PP = float(thresholds[thresholds['Genus'] == genus]["PP"])
 			except:
 				error_measure_lst = ["internal_nodes", "root_num", "inference"]
+				SET_PP = 0.51
 
 			for error_measure in error_measure_lst:
 				print(error_measure)
@@ -175,15 +177,18 @@ with open(res_file , "w+") as writeFile:
 						#SET_PP = get_threshold("/groups/itay_mayrose/michaldrori/MSA_JmodelTree/output_MD/" + genus + "/" + genus + "_Chromevol_prune/chromevol_out/thresholds_PP") # outer function that fetches the genus' threshold
 						measure_fullpath = wd + str(i) + orig_dupl_filename
 					orig_num = get_measure(measure_fullpath,"orig")
-					#print(str(orig_num))
+					#print("orig***** " + str(orig_num))
+					model = best_model
+					#print(models)
 
-					for model in models:
+					#for model in models:
+					for x in range(1):
 						if error_measure == "root_num" or error_measure == "internal_nodes":
 							inferred_fullpath = wd2 + str(i) + "/" + model + inferred_numbers_filename
 						if error_measure == "total_dupl" or error_measure == "branch_dupl" or error_measure == "inference":
 							inferred_fullpath = wd2 + str(i) + "/" + model + inferred_expec_filename
 						inferred_num = get_measure(inferred_fullpath, "inferred")
-						#print(str(inferred_num))
+						#print("inferred * " + str(inferred_num))
 
 						adequacy_filename = wd2 + str(i) + "/" + model + "/adequacy_test/adequacy_vec"
 
@@ -192,11 +197,8 @@ with open(res_file , "w+") as writeFile:
 							# remove range and unique counts statistics
 							tmp = tmp[1:-1]
 							tmp = tmp.split(", ")
-							del tmp[2:4]
-							del tmp[3]
-							#print(tmp + " " +  genus + " " + model + " " + str(i))
 							#if re.search("0",tmp):
-							if "0" in tmp: # inadequate model
+							if tmp[2]=="0" or tmp[3]=="0": # inadequate model
 								if error_measure == "internal_nodes": # difference between two lists
 									tmp_lst = [abs(x1 - x2) for (x1, x2) in zip(orig_num, inferred_num)]
 									tmp_lst = sum(tmp_lst)
@@ -220,14 +222,22 @@ with open(res_file , "w+") as writeFile:
 				#print ("Adequate list differences" + str(adequate_diff))
 				#print ("Inadequate list differences" + str(inadequate_diff))
 				if len(adequate_diff)==0 or len(inadequate_diff)==0:
-					#print("Unable to perform analysis")
-					continue
+					if len(adequate_diff)==0:
+						row = [genus, best_model, error_measure, adequate_diff, inadequate_diff, len(adequate_diff),
+							   len(inadequate_diff), "NA",
+							   str(round(average(inadequate_diff), 2)), "NA", "NA"]
+					else:
+						row = [genus, best_model, error_measure, adequate_diff, inadequate_diff, len(adequate_diff),
+							   len(inadequate_diff), str(round(average(adequate_diff), 2)),
+							   "NA", "NA", "NA"]
 				#print ("Adequate diff " + str(round(average(adequate_diff),2)))
 				#print ("Inadequate diff " + str(round(average(inadequate_diff),2)))
-				t_stat, p_val = stats.ttest_ind(adequate_diff,inadequate_diff,equal_var = False)
+				else:
+					t_stat, p_val = stats.ttest_ind(adequate_diff,inadequate_diff,equal_var = False)
+					row = [genus, best_model, error_measure, adequate_diff, inadequate_diff, len(adequate_diff),len(inadequate_diff), str(round(average(adequate_diff), 2)),str(round(average(inadequate_diff), 2)), str(round(t_stat, 2)), str(round(p_val, 2))]
 				#print("statistic: " + str(round(t_stat,2)))
 				#print("pv: " + str(round(p_val, 2)))
 
-				row = [genus, best_model, error_measure, adequate_diff, inadequate_diff,len(adequate_diff),len(inadequate_diff),str(round(average(adequate_diff),2)),str(round(average(inadequate_diff),2)),str(round(t_stat,2)),str(round(p_val, 2))]
+				#row = [genus, best_model, error_measure, adequate_diff, inadequate_diff,len(adequate_diff),len(inadequate_diff),str(round(average(adequate_diff),2)),str(round(average(inadequate_diff),2)),str(round(t_stat,2)),str(round(p_val, 2))]
 				writer.writerow(row)
 			targz_dir(out_dir, l, "zipped.tar.gz", True)

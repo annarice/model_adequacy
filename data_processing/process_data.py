@@ -95,5 +95,4 @@ def get_counts(filename,main_res_dir):
                 counts.append(int(line))
     if len(set(counts))== 1: # no counts variability, do not apply MA
         open(main_res_dir + "/NO_NEED_FOR_MA", 'a').close()
-        return (None)
     return (counts)

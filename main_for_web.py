@@ -19,8 +19,8 @@ if __name__ == '__main__':
 		for i in range(num_of_trees):
 			if not os.path.exists(output_dir):
 				res = os.system("mkdir -p " + output_dir)  # -p allows recusive mkdir in case one of the upper directories doesn't exist
-				original_counts = process_data.get_counts(counts_file, main_res_dir)
-			if original_counts is None: # no counts variability, do not apply model adequacy
+			original_counts = process_data.get_counts(counts_file, main_res_dir)
+			if path.exists(main_res_dir + "/NO_NEED_FOR_MA"):
 				exit()
 			process_data.match_counts_to_tree(main_res_dir + mlAncTree, main_res_dir)
 			original_counts_statistics = get_stats.calculate_statistics(original_counts, output_dir + "orig_stats",
@@ -30,3 +30,5 @@ if __name__ == '__main__':
 													 main_res_dir + tree_wo_counts, CE_path)
 			adequacy_lst = test_adequacy.model_adequacy(output_dir, original_counts_statistics, model,
 														max_for_simulations, sims_per_tree, id, main_res_dir)
+			path = os.path.dirname(sys.argv[0])
+			os.system("Rscript " + path + "/create_plots_for_web.R " + output_dir + " " + model)

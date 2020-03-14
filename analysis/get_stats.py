@@ -45,7 +45,7 @@ def calculate_statistics(counts,filename, tree_file, simulated_counts_file = Fal
     except:
         a = 0
 
-    lst_of_stats = [v, e, p, a, r, u]
+    lst_of_stats = [v, e, r, u, p, a]
     round_stats = [round(x,2) for x in lst_of_stats]
 
     with open(filename, "w+") as stats:
@@ -103,7 +103,7 @@ def fitch (tree_file, c = False):
 
 def acctran(t):
     command = "unset R_HOME; Rscript "
-    script = "/groups/itay_mayrose/annarice/model_adequacy/code/analysis/phangorn.R "
+    script = "/analysis/phangorn.R "
     arg = t
     cmd = command + script + arg
     res = subprocess.Popen(cmd, shell=True, cwd=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
