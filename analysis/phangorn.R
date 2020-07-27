@@ -19,8 +19,14 @@ calculate_stat = function(tree){
 	data = phyDat(mat_data, type = "USER", levels = unique(counts))
 	tmp = acctran(tree,data)
 
-	mat = as.data.frame(cbind(tree$edge,tree$edge.length,tmp$edge.length,0))
-	names(mat) = c("begin","end","length","parsimony","time")
+	#mat = as.data.frame(cbind(tree$edge,tree$edge.length,tmp$edge.length,0))
+	#names(mat) = c("begin","end","length","parsimony","time")
+	tmp_mat = as.data.frame(cbind(tmp$edge,tmp$edge.length))
+	names(tmp_mat) = c("begin","end","parsimony")
+	tree_mat = as.data.frame(cbind(tree$edge,tree$edge.length))
+	names(tree_mat) = c("begin","end","time")
+	mat = merge(tree_mat, tmp_mat, by=c("begin","end"))
+	mat$time = 0
 	distances = dist.nodes(tree)
 	root_ind = which(node.depth.edgelength(tree)==0)
 	for (i in 1:nrow(mat)){
